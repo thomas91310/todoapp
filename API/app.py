@@ -1,6 +1,6 @@
 import os
 import passlib
-from flask import Flask, render_template, session, redirect, url_for
+from flask import Flask, request, render_template, session, redirect, url_for
 from flask.ext.script import Manager
 from flask.ext.bootstrap import Bootstrap
 from flask.ext.sqlalchemy import SQLAlchemy
@@ -27,9 +27,10 @@ class User(db.Model):
 	password = db.Column(PasswordType(schemes=['pbkdf2_sha512','md5_crypt'], deprecated=['md5_crypt']))
 
 	def __repr__(self):
+		print "here in repr"
 		return '<User %r>' % self.email
 
-class Task(db.Model)
+class Task(db.Model):
 	__tablename__ = 'tasks'
 	id = db.Column(db.Integer,primary_key=True)
 	title = db.Column(db.String(64))
@@ -39,6 +40,17 @@ class Task(db.Model)
 @app.route('/')
 def index():
     return "Hello, World!"
+
+@app.route('/todoapp/api/users', methods=['GET', 'POST'])
+def create_user():
+	if request.method == "POST":
+		return("hey")
+	else:
+		all_users = User.query.all()
+		return("error")
+	#else:
+	#	all_users = User.query.all()
+	#	return(all_users)
 
 if __name__ == '__main__':
 	manager.run()
