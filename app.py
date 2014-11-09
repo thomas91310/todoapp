@@ -44,6 +44,9 @@ def index():
 @app.route('/todoapp/api/users', methods=['GET', 'POST'])
 def create_user():
 	if request.method == "POST":
+		email = request.json['email']
+		password = request.json['password']
+		User(email=email, password=password)
 		return("hey")
 	else:
 		all_users = User.query.all()
