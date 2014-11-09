@@ -2,7 +2,7 @@ Todo = {
   USER: null,
 
   config: {
-    host: 'http://recruiting-api.nextcapital.com'
+    host: 'http://localhost:5000/todoapp/api'
   },
 
   endSession: function(options) {
@@ -26,7 +26,7 @@ Todo = {
   },
 
   startSession: function(options, callback) { //ADDED CALLBACK
-    this._postUser(options, [Todo.config.host, 'users/sign_in' ].join('/'), callback);
+    this._postUser(options, [Todo.config.host, 'users/signin' ].join('/'), callback);
   },
 
   createTodo: function(options, callback) { //ADDED CALLBACK
@@ -92,6 +92,7 @@ Todo = {
     var error    = options.error;
 
     var successCallback = function(user) {
+      console.log("data :", user);
       Todo.USER = user;
       callback(Todo.USER);
 
@@ -105,8 +106,9 @@ Todo = {
     };
 
     $.ajax(route, {
-      data:    { email: email, password: password },
-      type:    'POST',
+      data: JSON.stringify({ email: email, password: password }, null, '\t'),
+      contentType: 'application/json;charset=UTF-8',
+      type: 'POST',
       success: successCallback,
       error:   errorCallback
     });
