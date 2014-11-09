@@ -39,7 +39,7 @@ class Task(db.Model):
 
 @app.route('/')
 def index():
-    return "Hello, World!"
+    return redirect(url_for('static', filename='home.html'))
 
 @app.route('/todoapp/api/users', methods=['GET', 'POST'])
 def create_user():
