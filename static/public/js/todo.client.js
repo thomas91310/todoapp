@@ -30,8 +30,6 @@ Todo = {
   },
 
   createTodo: function(options, callback) { //ADDED CALLBACK
-
-      console.log("todo created ", options.todo);
     var successCallback = function(data) {
         callback(data);
     };
@@ -41,25 +39,24 @@ Todo = {
     };
 
     $.ajax([Todo.config.host, 'users', Todo.USER.id, 'todos'].join('/'), {
-      data:    { user_id: Todo.USER.id, api_token: Todo.USER.api_token, todo: options.todo },
-      type:    'POST',
+      data: JSON.stringify({ description: options.todo.description }, null, '\t'),
+      contentType: 'application/json;charset=UTF-8',
+      type: 'POST',
       success: successCallback,
       error:   errorCallback
     });
   },
 
   loadTodos: function(options, callback) { //ADDED CALLBACK
-    var apiToken = Todo.USER.api_token;
     var userId   = Todo.USER.id;
     var success  = options.success;
     var error    = options.error;
 
-      var successCallback = function(data) {
+    var successCallback = function(data) {
           callback(data);
-      };
+    };
 
     $.ajax([Todo.config.host, 'users', userId, 'todos' ].join('/'), {
-      data: { api_token: apiToken },
       success: successCallback,
       error:   error
     });
@@ -70,11 +67,10 @@ Todo = {
     var data     = options.data;
     var success  = options.success;
     var error    = options.error;
-    var apiToken = Todo.USER.api_token;
     var userId   = Todo.USER.id;
 
     $.ajax([Todo.config.host, 'users', userId, 'todos', todoId ].join('/'), {
-      data:    { todo: data, api_token: apiToken },
+      data:    { todo: data },
       type:    'PUT',
       success: success,
       error:   error
@@ -92,7 +88,6 @@ Todo = {
     var error    = options.error;
 
     var successCallback = function(user) {
-      console.log("data :", user);
       Todo.USER = user;
       callback(Todo.USER);
 

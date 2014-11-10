@@ -78,7 +78,7 @@ todolist.controller('TodoCtrl', ['$scope', 'filterFilter', '$http', '$modal', '$
                     var options = {};
                     Todo.loadTodos(options, function(data) {
                        $scope.$apply(function() {
-                           $scope.todos = data; //reload todos.
+                           $scope.todos = data.todos; //reload todos.
                        });
                     });
                 }
@@ -161,9 +161,9 @@ todolist.controller('TodoCtrl', ['$scope', 'filterFilter', '$http', '$modal', '$
 
     $scope.loadTodos = function() {
         var options = { };
-        Todo.loadTodos(options, function(todos) {
+        Todo.loadTodos(options, function(data) {
             $scope.$apply(function() {
-                $scope.todos = todos;
+                $scope.todos = data.todos;
             });
         });
     }
